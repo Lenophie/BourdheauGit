@@ -1,6 +1,7 @@
 require('dotenv').config();
 const SlackBot = require('slackbots');
 const messageGenerator = require('./messageGenerator.js');
+const botTrigger = require('./botTrigger.js');
 
 const bot = new SlackBot({
     token: process.env.TOKEN,
@@ -24,7 +25,7 @@ postMessage('Bourdheau\'Git est en ligne ! Pose-moi une question à propos de Gi
  * @param {object} data
  */
 bot.on('message', (data) => {
-    if (data.text != null && data.text.search('help') > -1 && data.text.search('git') > -1) {
+    if (data.text != null && data.username === process.env.NAME && botTrigger.isMessageTrigger(data.text.toLowerCase())) {
         const message = messageGenerator.generateMessage();
         postMessage(message);
     }
