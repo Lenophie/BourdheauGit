@@ -2,7 +2,11 @@ const interrogators = [
     'help',
     'comment',
     'aide',
-    'how'
+    'how',
+    "qu'est-ce",
+    'what',
+    'pourquoi',
+    'why'
 ];
 
 const isMessageTrigger = (message) => {

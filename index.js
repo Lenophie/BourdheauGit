@@ -25,7 +25,7 @@ postMessage('Bourdheau\'Git est en ligne ! Pose-moi une question à propos de Gi
  * @param {object} data
  */
 bot.on('message', (data) => {
-    if (data.text != null && data.username === process.env.NAME && botTrigger.isMessageTrigger(data.text.toLowerCase())) {
+    if (data.text != null && data.username !== process.env.NAME && botTrigger.isMessageTrigger(data.text.toLowerCase())) {
         const message = messageGenerator.generateMessage();
         postMessage(message);
     }
