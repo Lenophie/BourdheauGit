@@ -9,14 +9,23 @@ const interrogators = [
     'why'
 ];
 
+const gitReferences = [
+    'git',
+    'repository',
+    'remote',
+    'push',
+    'pull',
+    'commit',
+    'merge'
+];
+
 const isMessageTrigger = (message) => {
-    if (message.search('git') > -1) return isThereAnInterrogator(message);
-    return false;
+    return hasElementFromListInMessage(message, gitReferences) && hasElementFromListInMessage(message, interrogators);
 };
 
-const isThereAnInterrogator = (message) => {
-    for (const interrogator of interrogators) {
-        if (message.search(interrogator) > -1) return true;
+const hasElementFromListInMessage = (message, list) => {
+    for (const element of list) {
+        if (message.search(element) > -1) return true;
     }
     return false;
 };
