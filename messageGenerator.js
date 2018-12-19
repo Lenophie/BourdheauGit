@@ -41,6 +41,15 @@ const gitVerbs = [
     'revert'
 ];
 
+const jQueryVerbs = [
+    'bind',
+    'addEventListener',
+    'remove',
+    'add',
+    'click',
+    'append'
+];
+
 const gitFlags = [
     'force',
     'soft',
@@ -57,23 +66,30 @@ const gitFlags = [
 
 const numberVerbs = gitVerbs.length;
 const numberFlags = gitFlags.length;
+const numberOfJqueryVerbs = jQueryVerbs.length;
 
 /**
+ * @param {Object} options
  * @returns {string}
  */
-const generateMessage = () => {
+const generateMessage = (options) => {
     const introSentence = pickIntroSentence();
-    const message = fillSentenceWithCommands(introSentence);
+    const message = fillSentenceWithCommands(introSentence, options);
     return message;
 };
 
 /**
+ * @param {Object} options
  * @returns {string}
  */
-const generateGitCommand = () => {
+const generateGitCommand = (options) => {
     const numberFlagsInCommand = Math.floor(Math.random() * 2 + 1);
     const verbIndex = Math.floor(Math.random() * (numberVerbs - 1));
-    let command = `git ${gitVerbs[verbIndex]}`;
+    let command = '';
+    if (options.jQuery) {
+        const jQueryVerbIndex = Math.floor(Math.random() * (numberOfJqueryVerbs - 1));
+        command = `$('#git').${jQueryVerbs[jQueryVerbIndex]}('${gitVerbs[verbIndex]}')`
+    } else command = `git ${gitVerbs[verbIndex]}`;
 
     for (let i = 1; i <= numberFlagsInCommand; i++) {
         const flagIndex = Math.floor(Math.random() * (numberFlags - 1));
@@ -92,13 +108,15 @@ const pickIntroSentence = () => {
 };
 
 /**
+ * @param {array} introSentence
+ * @param {Object} options
  * @returns {string}
  */
-const fillSentenceWithCommands = (introSentence) => {
+const fillSentenceWithCommands = (introSentence, options) => {
     let message = "";
     for (let bitIndex = 0; bitIndex < introSentence.length - 1; bitIndex++) {
         message += introSentence[bitIndex];
-        const gitCommand = generateGitCommand();
+        const gitCommand = generateGitCommand(options);
         message += ` \`\`\`${gitCommand}\`\`\` `;
     }
     message += introSentence[introSentence.length - 1];
