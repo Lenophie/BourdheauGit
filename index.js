@@ -19,7 +19,7 @@ const postMessage = (message) => {
     bot.postMessageToChannel(process.env.CHANNEL, message, params);
 };
 
-postMessage('Bourdheau\'Git est en ligne ! Pose-moi une question à propos de Git !');
+postMessage(process.env.WELCOME);
 
 /**
  * @param {object} data
